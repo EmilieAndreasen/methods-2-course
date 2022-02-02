@@ -1,0 +1,13 @@
+---
+title: "Methods 2 - week 1"
+author: "Emilie Munch Andreasen"
+date: "2/2/2022"
+output: ''
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
