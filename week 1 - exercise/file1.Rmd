@@ -7,7 +7,19 @@ output: ''
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
 ```
 
-## R Markdown
+```{r}
+x <- rnorm(1000, m = 2, sd = 0.5)
+
+df_residuals <-  rnorm(1000, m = 0, sd = 3.9)
+
+hist(x)
+```
+
+```{r}
+y = 30 + 10*x+ rnorm(1000, m = 0, sd = 3.9)
+plot(x,y)
+```
 
