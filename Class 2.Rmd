@@ -1,0 +1,88 @@
+---
+title: "class 2 - Methods 2"
+author: "Emilie Munch Andreasen"
+date: "9/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+pacman::p_load(tidyverse)
+```
+
+```{r}
+# 3.1 
+N = c(200, 250, 300, 250)
+p = c(50, 60, 40, 30)
+
+sum(N*p)/sum(N)
+
+# more manual way
+(200*50+250*60+40*300+250*30)/1000
+```
+
+```{r}
+# 3.3
+x <- seq(from = -3, to = 3, length.out=100)
+y = dnorm(x)
+y1 = dnorm(x, mean = 2, sd = 0.2)
+y2 = dnorm(x, mean = 1.5, sd = 0.2)
+
+plot(x,y)
+plot(x,y1)
+plot(x,y2)
+
+```
+
+```{r}
+# 3.4
+x <- 1:25
+y = dpois(x, lambda = 3.5)
+
+# Putting this stuff into dataframe
+tibble(x = x, y = y) %>% 
+  ggplot(aes(x,y)) +
+  geom_col()
+
+```
+
+```{r}
+# 3.5
+x <- 1:40
+y = dbinom(x, size = 20, prob = 0.3)
+
+# Putting this stuff into dataframe
+tibble(x = x, y = y) %>% 
+  ggplot(aes(x,y)) +
+  geom_col()
+
+```
+
+```{r}
+# 3.6
+x = rnorm(1000, mean = 35, sd = 10)
+y = 65/1.5 + x*1.5
+plot(x,y)
+
+# new range of y
+c(65/1.5, 50*1.5, 65/1.5)
+
+```
+
+```{r}
+# 4.1
+# estimate
+# 10%
+
+# Standard error 
+SE_m = sqrt(0.5*0.5/500)
+SE_n = sqrt(0.4*0.6/500)
+se_diff = sqrt(SE_m^2 + SE_n^2)
+se_diff
+
+```
+```{r}
+# 4.2
+
+```
+
