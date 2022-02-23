@@ -299,7 +299,54 @@ mean(d)
 ```
 ```{r}
 # 5.3
+dbinom(3, size=10, prob=0.4)
 
+simulation = function(){
+  shots = sample(c(1,0), size = 10, prob = c(0.4, 0.6), replace = T)
+  return(sum(shots))
+}
+
+n = 0
+for(i in 1:10000){
+  if(simulation()== 3){
+    n = n+1
+  }
+}
+
+n/10000
+```
+
+```{r}
+# 5.4
+x_sample = function(){
+  sum(runif(20))
+}
+
+X = c(1:1000)
+for(i in 1:1000){
+  X[i] = x_sample()
+}
+
+hist(X)
+```
+```{r}
+# 5.5
+z = c(1:1000)
+for (i in 1:1000){
+  x = mean(rnorm(n= 100, mean=69, sd=2.9))
+  y = mean(rnorm(n= 100, mean=63.7, sd=2.7))
+  z[i]=x-y
+}
+hist(z)
+sd(z)
+mean(z)
+```
+```{r}
+# 5.8
+x = rnorm(1000, mean=0.1, sd=0.17)
+diff = abs(x-0.1) < 2*0.17
+diff
+sum(diff)/10
 ```
 
 
