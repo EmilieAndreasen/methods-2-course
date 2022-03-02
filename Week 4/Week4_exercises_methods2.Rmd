@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Math notation
-While cognitive science is not a math degree several cog-sci papers and teaching books makes heavyli use of math notation. It is therefore important to get a fundamental understanding of math operators and notation so you will be able to read and understand formulas when they're presented to you. 
+While cognitive science is not a math degree several cog-sci papers and teaching books makes heavily use of math notation. It is therefore important to get a fundamental understanding of math operators and notation so you will be able to read and understand formulas when they're presented to you. 
 
 So to practise the reading of math notation I'll present you with a few lines and it is your job to interpret them and translate into plain english. We will also do it in the reverse order where I present you a statement and you've to translate it into math notation. 
 
@@ -39,58 +39,60 @@ It only changes how the code is presented in the markdown.
 ### Lets get started with some exercises. 
 
 $$  \sum x_i >> \sum y_i,   $$
-__answer:__
+__answer:__ the sum of all x's are a lot bigger/greater than the sum of all y's
 
 $$ X \in \mathbb{R}^+ $$
-__answer:__
+__answer:__ X is an element of all real positive numbers
 
-$$ Y \in \mathbb{I^}^+$$
-__answer:__
+$$ Y \in \mathbb{I}^+$$
+__answer:__ Y is an element of all positive integers
 
 $$ x \in \mathbb{R}^+ \therefore x \notin \mathbb{R}^- $$
-__answer:__
+__answer:__ x is an element of all positive real numbers therefore x is not an element of all negative real numbers
 
 $$ y > x \therefore x - y \in \mathbb{R}^-$$
-__answer:__
+__answer:__ y is greater than x therefore x minus y is an element of all negative real numbers
 
 $$ x \in \mathbb{I}^-  y \in \mathbb{I}^+ \therefore x + y  \in \mathbb{I} $$
-
-__answer:__
+__answer:__ x is an element of negative integers, y is an element of positive integers, therefore the result of x plus y is an element of integers 
 
 $$ x \varpropto y \because x = c \cdot y  $$
-__answer:__
+__answer:__ x is proportional to y because x is equal to the set of complex numbers times y
 
 $$ x \in \mathbb{I} \ and  \ x \notin \mathbb{I}^- \Rightarrow x \in \mathbb{I}^+ $$ 
-__answer:__
-
+__answer:__ x is an element of integers and x is not an element negative integers then consequently x is an element of positive integers
 
 ### Part 2
-Now i'll present you for some statements that you should translate into logical statements using the notation learned from the chapter. 
+Now I'll present you for some statements that you should translate into logical statements using the notation learned from the chapter. 
 
 For a overview of latex commands see https://www.caam.rice.edu/~heinken/latex/symbols.pdf 
 and https://oeis.org/wiki/List_of_LaTeX_mathematical_symbols
 
 
-##### lets go
-Let x be the any number of postive integers and y be any negative integer. Therefore the product 
+##### let's go!
+Let x be the any number of positive integers and y be any negative integer. Therefore the product 
 of x and y must be a negative integer. 
 __answer:__
-$$ $$
+$$ x \in \mathbb{I}^+ and \ y \in \mathbb{I}^- \therefore x+y=\mathbb{I}^-
+$$
 
 
 x is equal to 0 and a exist in the positive real numbers therefore a to the power of x is equal to 1. 
 __answer:__
-$$ $$
+$$ x=0 \ and \ a \in \mathbb{R}^+ \therefore \ a^x =1 
+$$
 
 
 The mean of y_hat is equal to the sum of of all y_i divded by the length of y_i which is an approximate of the mean of y.   
 __answer:__
-$$ $$
+$$ \bar{\hat{y}} = \frac{\sum{y_i}}{n} \approx \overline{y}
+$$
 
 
 x is proportional to y iff (if and only if) x = y * c
 __answer:__
-$$ $$
+$$ x \propto y \iff x= y \cdot c
+$$
 
 
 
@@ -110,18 +112,18 @@ let y be a set {1,3,10,4,20,11}
 Find the following set z for each expression. 
 
   1)
-$$ z = x \cup y  $$
+$$ z = x \cup y \therefore \ {0,1,2,3,4,8,10,11,20} \in z $$
   2)
-$$ z =x \cap y $$
+$$ z =x \cap y \therefore \ {3,10,11} \in z$$
 
   3)
-$$z = x \setminus y $$
+$$z = x \setminus y \therefore \ z = 0,2,8 $$
 
   4) 
-$$max(x) $$
+$$max(x)=11 $$
 
   5)
-$$ max(x \cap y)$$
+$$ max(x \cap y)= 11 $$
 
 
 # Exercises from the book. 
