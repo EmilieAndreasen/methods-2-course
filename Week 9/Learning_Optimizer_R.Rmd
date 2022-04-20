@@ -10,7 +10,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Class 8 Different Optimizers and regression approahces. 
-We've been introduced to normal lm() linear regression function. But linear regression isn't just linear regression. There exist many different approaches and criteria for which that algorithm should optimize. Ordinary least squares (OLS) which you now know how to do algebraically using matrix multiplication. The least squares method tries to minimize error term $\epsilon_i = y_i - (a+b x_i) $. We cannot work with the error term directly since this would require us to know the true estimates of a and b. However we know the estimates of a and b which we can dentote as $\hat{a}$. The goal is therefore to minimize the residuals   $r_i = y_i -(\hat{a} + \hat{b}x_i)$. More precisely the residual sum of squares (RSS). Calculating the OLS algebraically can be very computaionally expensive so linear regression OLS algorithms usually use other tricks to find the $\theta$ that minimize RSS, remember $\theta$ is the symbol for all our parameter values (Beta-values among others). So we can also frame OLS as $\underset{\theta}{\arg\min f(x)}$. In a machine learning framework we would call the RSS = f(x) our cost-function or loss-function. We wanna minimize our cost/loss when doing regression.  
+We've been introduced to normal lm() linear regression function. But linear regression isn't just linear regression. 
+There exist many different approaches and criteria for which that algorithm should optimize. Ordinary least squares (OLS) which you now know how to do algebraically using matrix multiplication. The least squares method tries to minimize error term $\epsilon_i = y_i - (a+b x_i) $. We cannot work with the error term directly since this would require us to know the true estimates of a and b. However we know the estimates of a and b which we can dentote as $\hat{a}$. The goal is therefore to minimize the residuals   $r_i = y_i -(\hat{a} + \hat{b}x_i)$. More precisely the residual sum of squares (RSS). Calculating the OLS algebraically can be very computaionally expensive so linear regression OLS algorithms usually use other tricks to find the $\theta$ that minimize RSS, remember $\theta$ is the symbol for all our parameter values (Beta-values among others). So we can also frame OLS as $\underset{\theta}{\arg\min f(x)}$. In a machine learning framework we would call the RSS = f(x) our cost-function or loss-function. We wanna minimize our cost/loss when doing regression.  
 
 But how would we implement such an optimizer in R?
 Well this among other things is what we're gonna learn today.
@@ -37,10 +38,11 @@ x_plot <- seq(-10,10, by = .05)
 #plot the function as a line (type = "l"). 
 plot(x_plot, polynomial(x_plot), type = "l")
 ```
-We that there is a minimum around $x \approx 0$.
+We see that there is a minimum around $x \approx 0$.
 
 **Question:**
 - Using what we know about derivatives how would find any local maximum and minimum points?
+
 
 - When having found an extremum how can you be sure it is a min or max? (think higher order derivatives.) 
 
@@ -169,9 +171,33 @@ Now it is time for you to get your hands dirty with the optim() function.
 ## Exercises
 
 1) Choose a mathematical function with 4 minimums in the definition set you have chosen. 
-  a) Hard code the functiom into R and plot it.
-  b) Find the 4 minimums using the optim() function. 
-  c) Check if the they are indeed minimums using the second derivative rule we learned last class. 
+  a) Hard code the function into R and plot it.
+```{r}
+m1 <- function(x){
+  f_x <- (cos(x))
+  return(f_x)
+}
+
+x <- seq(-10,10 , by = .05)
+plot(x,m1(x), type = "l")
+```
+  
+  b) Find the 4 minimums using the optim() function.
+```{r}
+#Optim will always find the local minimum which is the closest to the starting value.  
+x = -10
+repeat{
+  print(paste("for x = ", x," the closest minimum is at x =",optim(x, m1, method = "CG")$par))
+  x = x +1
+  if (x > 10) break("X limit reached")
+}
+```
+
+  c) Check if the they are indeed minimums using the second derivative rule we learned last class.
+```{r}
+#if negative = maximum, has to be positive :)
+```
+
   d) Find the maximums or in other words, find the x's with maximises f(x). (Hint: Optim() always minimizes the return() so maybe switch the sign? How can max become min? )
   
 2) Using the above introduction to the linear regression using optim().
