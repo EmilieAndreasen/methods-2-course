@@ -117,7 +117,7 @@ Linear prediction takes the uncertainty about our coefficients into account.
 y_linpred_drip <- posterior_linpred(bayes_model, newdata = new)
 hist(y_linpred_drip, main = "Histogram of predicted value for drip | swag = 2")
 ```
-Due the uncertainty regarding our beta estimates we can have drip ranging from -40 to 60 when swag = 2, depending on the coefficients. We can of course compute confidence intervals, mean, median, SD etc. for this distribution.
+Due to the uncertainty regarding our beta estimates we can have drip ranging from -40 to 60 when swag = 2, depending on the coefficients. We can of course compute confidence intervals, mean, median, SD etc. for this distribution.
 
 But we can see that our linear prediction vary greatly. 
 ```{r}
@@ -166,8 +166,50 @@ new1.2 <- data.frame(swagg = seq(1,100, by = 1), age = rep(seq(12,21), 10))
 ```
 You can of course choose to use normal distributed predictors or sequence or whatever simulation technique you want to get the right combination of age and swagg values you want to see their respective influence on drip. 
 
+<<<<<<< Updated upstream
 
 
+=======
+# Exercises 
+
+## Chapter 9
 
 
+#### 9.1 Prediction for a comparison: 
+A linear regression is fit on high school students modeling grade point average given household income. Write R code to compute the 90% predictive interval for the difference in grade point average comparing two students, one with household incomes of
+40 000 and one with household income of 80 000.
+```{r}
+options(mc.cores = parallel::detectCores())
+
+lul <- data.frame(earning = c(4e4 , 8e4), gpa = c(6,8))
+
+m = stan_glm(gpa ~ earning, data = lul)
+summary(m)
+
+
+```
+
+```{r}
+read_csv("C:/Users/sigur/Desktop/methods-2-course/Data for the book/KidIQ/data/kidiq.csv")
+```
+
+
+#### 9.2 Predictive simulation for linear regression: 
+Using data of interest to you, fit a linear regression. Use the output from this model to simulate a predictive distribution for observations with a particular combination of levels of all the predictors in the regression.
+>>>>>>> Stashed changes
+
+```{r}
+df_kid <- read_csv("C:/Users/Emili/Documents/University/2nd semester/methods-2-course/Data for the book/KidIQ/data/kidiq.csv")
+df_kid
+
+bayes_model <- stan_glm(kid_score ~mom_iq, data = df_kid)
+summary(bayes_model)
+```
+
+```{r}
+samples1 <- as.matrix(bayes_model)
+
+dim(samples1)
+head(samples1)
+```
 
