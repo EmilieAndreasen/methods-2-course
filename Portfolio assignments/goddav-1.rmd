@@ -1,0 +1,362 @@
+---
+title: "Methods 2 -- Portfolio Assignment 3"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+- *Type:* Group assignment
+- *Due:* 8 May 2022, 23:59
+- *Instructions:* All problems are exercises from _Regression and Other Stories_. Please edit this file here and add your solutions.
+
+```{r}
+pacman::p_load(rstan, rstanarm, tidyverse, ggplot2, car, dplyr)
+```
+
+
+## 1. Exercise 10.5
+
+_Regression modeling and prediction:_ The folder `KidIQ` contains a subset of the children and mother data discussed earlier in the chapter. You have access to children’s test scores at age 3, mother’s education, and the mother’s age at the time she gave birth for a sample of 400 children.
+
+
+## Loading data
+```{r}
+child_df = read_csv("child_iq.csv") %>% 
+  mutate( #I rename stuff so that it's easier to deal with
+    child_score = ppvt,
+    mom_education = educ_cat,
+    mom_age=momage,
+  ) %>% 
+  select(c(child_score, mom_education, mom_age))
+head(child_df)
+str(child_df)
+```
+
+
+(a) Fit a regression of child test scores on mother’s age, display the data and fitted model, check assumptions, and interpret the slope coefficient. Based on this analysis, when do you recommend mothers should give birth? What are you assuming in making this recommendation?
+
+```{r}
+#Fitting model
+model = stan_glm(child_score ~ mom_age, data=child_df, refresh= 0)
+
+#Obtaining the results of the simulations and turning them into a tibble
+simulations = as.matrix(model) %>% data.frame() %>% tibble()
+hist(simulations$mom_age)
+hist(simulations$sigma)
+summary(model)
+str(simulations)
+```
+
+From this initial modelling attempt it seems that the higher age of the mother
+corresponds with a higher child IQ score; it is apparent  that for each increment in mothers age, child IQ increases with 0.8 points. 
+
+Assuming that the only thing predicting and influencing the child's IQ is the mother's age, this tendency would indicate that women should have children later in life. So the older the mother the higher the child's IQ. Moreover, this recommendation is based solely on the assumption that the ultimate consideration for when to give birth is to maximize child IQ.
+
+It has to be noted that the estimate of sigma is quite large, suggesting that
+the model leaves a lot of unexplained variance in the data.
+
+The effect size of 0.8 is relatively small as well. Even if there is a relationship between mom's age and child IQ, it is not particularly strong.
+
+
+```{r}
+#Checking assumptions
+
+#Checking normality of residuals
+hist(model$residuals, main ="Residuals of the model")
+shapiro.test(model$residuals)
+qqnorm(model$residuals, pch = 1, frame = FALSE)
+qqline(model$residuals, col = "steelblue", lwd = 2)
+
+#checking for homoscedasticity
+bartlett.test(child_score ~ mom_age, data=child_df)
+
+#Residual vs fitted plot
+plot(fitted(model), model$residuals)
+```
+We can see that the residuals of the model are not normally distributed,
+but the variances are homogeneous.
+By visual inspection, we can see that the assumption of linearity is not broken either.
+
+```{r}
+#plotting the model
+intercept = model$coefficients[["(Intercept)"]]
+slope.mom_age = model$coefficients[["mom_age"]]
+child_df %>%
+  ggplot(aes(x = mom_age, y = child_score)) +
+  geom_point() +
+  geom_abline(
+    data=simulations,
+    aes(
+      intercept = X.Intercept.,
+      slope = mom_age
+    ),
+    alpha=0.002,
+    color="red"
+  ) +
+  geom_abline(
+    intercept = intercept,
+    slope=slope.mom_age,
+    color="orange",
+    size=1
+  )
+```
+Upon visual inspection it becomes even more clear how weak of a relationship
+there is between mom's age and a child's IQ score. There is a lot of noise around the regression
+line.
+
+
+
+(b) Repeat this for a regression that further includes mother’s education, interpreting both slope coefficients in this model. Have your conclusions about the timing of birth changed?
+
+```{r}
+#Making second model
+model_2 = stan_glm(child_score ~ mom_education + mom_age, data=child_df, refresh=0)
+simulations_2 = as.matrix(model_2) %>% data.frame() %>% tibble()
+hist(simulations_2$mom_age)
+hist(simulations_2$mom_education)
+hist(simulations_2$sigma)
+summary(model_2)
+```
+```{r}
+#Plotting the model
+intercept = model_2$coefficients[["(Intercept)"]]
+slope.mom_education = model_2$coefficients[["mom_education"]]
+
+child_df %>% 
+  ggplot(aes(x = mom_education, y=child_score)) +
+  geom_point() +
+  geom_abline(
+    data=simulations_2,
+    aes(
+      intercept = X.Intercept.,
+      slope = mom_education
+    ),
+    alpha=0.002,
+    color="red"
+  ) +
+  geom_abline(
+    intercept = intercept,
+    slope=slope.mom_education,
+    color="red",
+    size=1
+  )
+```
+
+It seems that the education level of the mother is a way better predictor of
+children's IQ, than their mothers' age. For every increment in mother's educational level, child IQ increases by 4.7. The posterior of the coefficient for mom_age in this model hovers around 0.
+It is worth noting, that  as educations take multiple years to complete, there is most likely a correlation between age and education.
+Based on this model, our recommendation would be to complete as many educational programs as possible before having children. Therefore, our recommendations are no longer based on the age of the model but on educational programs.
+
+
+(c) Now create an indicator variable reflecting whether the mother has completed high school or not. Consider interactions between high school completion and mother’s age. Also create a plot that shows the separate regression lines for each high school completion status group.
+
+```{r}
+#Load data
+kid_df = read_csv("kidiq.csv") %>% mutate(mom_hs = as.factor(mom_hs))
+```
+
+
+```{r}
+#Creating model
+model_3 = stan_glm(kid_score ~ mom_age * mom_hs, data=kid_df, refresh=0)
+simulations_3 = as.matrix(model_3) %>% data.frame() %>% tibble()
+
+hist(
+  simulations_3$X.Intercept.,
+  col="blue",
+  main = "Posterior of intercept for moms, who have not completed high school"
+)
+hist(
+  simulations_3$mom_age,
+  col="blue",
+  main = "Posterior of slope of age for moms, who have not completed high school"
+)
+hist(
+  simulations_3$mom_hs1 + simulations_3$X.Intercept.,
+  col="red",
+  main = "Posterior of intercept for moms, who have completed high school"
+)
+hist(
+  simulations_3$mom_age.mom_hs1 + simulations_3$mom_age,
+  col="red",
+  main = "Posterior of slope of age for moms, who have completed high school"
+)
+hist(simulations_3$mom_hs1, main="Posterior of difference between intercepts")
+hist(simulations_3$sigma, main = "Posterior of sigma")
+summary(model_3)
+
+```
+
+```{r}
+#Plotting the model
+intercept = model_3$coefficients[["(Intercept)"]]
+slope.mom_age = model_3$coefficients[["mom_age"]]
+slope.mom_high_school = model_3$coefficients[["mom_hs1"]]
+slope.interaction = model_3$coefficients[["mom_age:mom_hs1"]]
+
+mom_no_hs_df = kid_df %>% filter(mom_hs == 0)
+mom_hs_df = kid_df %>% filter(mom_hs == 1)
+
+mom_no_hs_df %>% ggplot(aes(x = mom_age, y = kid_score)) +
+  geom_point() +
+  geom_abline(
+    data=simulations_3,
+    aes(
+      intercept = X.Intercept.,
+      slope = mom_age
+    ),
+    alpha=0.002,
+    color="red"
+  ) +
+  geom_abline(intercept = intercept, slope = slope.mom_age, color="red", size=1) +
+  ggtitle("Mother does not have high school education")
+
+mom_hs_df %>% ggplot(aes(x = mom_age, y=kid_score)) +
+  geom_point() +
+  geom_abline(
+    data=simulations_3,
+    aes(
+      intercept = X.Intercept. + mom_hs1,
+      slope = mom_age.mom_hs1 + mom_age
+    ),
+    alpha=0.002,
+    color="blue"
+  ) +
+  geom_abline(
+    intercept = intercept + slope.mom_high_school,
+    slope = slope.mom_age + slope.interaction,
+    color = "blue",
+    size=1
+  ) +
+  ggtitle("Mother has high school education")
+```
+It can be observed that there is an antagonistic interaction between the age of 
+the mother, and whether they completed high school.
+It seems advisable for educated women to have children later on in their lives,
+while uneducated women should aim for giving birth earlier.
+
+(d) Finally, fit a regression of child test scores on mother’s age and education level for the first 200 children and use this model to predict test scores for the next 200. Graphically display comparisons of the predicted and actual scores for the final 200 children.
+
+```{r}
+train_data = kid_df %>% slice_head(n=200)
+test_data = kid_df %>% slice_tail(n=200)
+
+draw = 2
+
+model_4 = stan_glm(kid_score ~ mom_age * mom_hs, data=train_data, refresh=0)
+predictive_distribution = posterior_predict(model_4, newdata = test_data, draw=draw)
+predictions = data.frame(t(predictive_distribution))
+test_data = test_data %>%
+  mutate(age_factor=as.factor(mom_age)) %>% 
+  relocate(kid_score, .after=age_factor) %>% 
+  bind_cols(predictions) %>% 
+  gather(
+    key="label",
+    value="kid_score",
+    6:(6+draw)
+  ) %>% 
+  mutate(label=if_else(label=="kid_score", "real", "predicted"))
+
+mom_no_hs_df = test_data %>% filter(mom_hs == 0)
+mom_hs_df = test_data %>% filter(mom_hs == 1)
+
+intercept = model_4$coefficients[["(Intercept)"]]
+slope.mom_age = model_4$coefficients[["mom_age"]]
+slope.mom_high_school = model_4$coefficients[["mom_hs1"]]
+slope.interaction = model_4$coefficients[["mom_age:mom_hs1"]]
+
+mom_no_hs_df %>% ggplot(aes(x = age_factor, y = kid_score, col=label)) +
+  geom_point(position= position_jitter(width = 0.1, height = 0)) +
+  geom_abline(intercept = intercept, slope = slope.mom_age) +
+  ggtitle("Mother does not have high school education")
+
+mom_hs_df %>% ggplot(aes(x = age_factor, y=kid_score, col=label)) +
+  geom_point(position = position_jitter(width = 0.1, height = 0)) +
+  geom_abline(
+    intercept = intercept + slope.mom_high_school,
+    slope = slope.mom_age + slope.interaction
+  ) +
+  ggtitle("Mother has high school education")
+
+```
+It seems the model generalizes way better for educated women,
+and samples from the posterior predictive approximate the scores quite well.
+Moreover, the regression line seems reasonable too.
+For uneducated women the samples from the posterior predictive are quite a bit
+higher than the real scores, and the point estimate of the coefficients yields
+a regression line way higher than it should be.
+This makes sense, as we used a relatively small sample, most of which was made
+up of women who have graduated high school. In the case of uneducated women
+the prior seems to have overpowered the evidence.
+
+## 2. Exercise 10.6
+
+_Regression models with interactions:_ The folder `Beauty` contains data (use file `beauty.csv`) from Hamermesh and Parker (2005) on student evaluations of instructors’ beauty and teaching quality for several courses at the University of Texas. The teaching evaluations were conducted at the end of the semester, and the beauty judgments were made later, by six students who had not attended the classes and were not aware of the course evaluations.
+
+```{r}
+df_bea <- read_csv("beauty.csv")
+```
+
+
+(a) Run a regression using beauty (the variable `beauty`) to predict course evaluations (`eval`), adjusting for various other predictors. Graph the data and fitted model, and explain the meaning of each of the coefficients along with the residual standard deviation. Plot the residuals versus fitted values.
+
+```{r}
+model_bea <- stan_glm(eval ~ beauty, data= df_bea, refresh=0)
+summary(model_bea)
+```
+```{r}
+df_bea %>% 
+  ggplot(aes(x=beauty, y=eval))+
+  geom_point() + 
+  geom_abline(intercept=4,slope=0.1,colour = "red",size=2)
+```
+```{r}
+plot(lm(eval~beauty, data = df_bea), 1)
+```
+In conclusion, our Intercept coefficient tells us that when beauty scores are equal to 0, evaluations would be 4.0. For each increment in beauty score, your evaluation would increase by 0.1. The estimate of these values have quite peak distibutions with a standard deviation of 0.0. The distribution of residuals are quite wide, as sigma = 0.5, which describes the resudual standard deviation.
+
+(b) Fit some other models, including beauty and also other predictors. Consider at least one model with interactions. For each model, explain the meaning of each of its estimated coefficients.
+```{r}
+model_bea1 <- stan_glm(eval ~ beauty + age, data= df_bea, refresh=0)
+summary(model_bea1)
+model_bea3 <- stan_glm(eval ~ beauty * female, data= df_bea, refresh=0)
+summary(model_bea3)
+```
+
+
+See also Felton, Mitchell, and Stinson (2003) for more on this topic.
+
+## 3. Exercise 10.7
+
+_Predictive simulation for linear regression:_ Take one of the models from the previous exercise.
+
+(a) Instructor A is a 50-year-old woman who is a native English speaker and has a beauty score of −1. Instructor B is a 60-year-old man who is a native English speaker and has a beauty score of −0.5. Simulate 1000 random draws of the course evaluation rating of these two instructors. In your simulation, use posterior_predict to account for the uncertainty in the regression parameters as well as predictive uncertainty.
+```{r}
+new1 <- data_frame(age=50, beauty=-1, female=1)
+new2 <- data_frame(age=60, beauty=-0.5, female=0)
+y_postpred1 <- posterior_predict(model_bea3, newdata = new1,draws=1000 )
+y_postpred2 <- posterior_predict(model_bea3, newdata = new2,draws=1000 )
+
+y_diff <- (y_postpred2-y_postpred1)
+y_diff <- data.frame(y_diff)
+result <- filter(y_diff, X1>0)
+
+nrow(result)
+
+y_diff %>% 
+  filter(rowSums(across(where(is.numeric)) > 0)1000)
+
+
+summary(y_postpred1)
+summary(y_postpred2)
+hist(y_postpred1)
+hist(y_postpred2)
+
+plot(density(y_postpred1-y_postpred2))
+length(filter(y_diff>0))
+y_diff
+
+```
+
+(b) Make a histogram of the difference between the course evaluations for A and B. What is the probability that A will have a higher evaluation?
