@@ -11,7 +11,7 @@ output:
 - *Instructions:* All problems are exercises from _Regression and Other Stories_. Please edit this file here and add your solutions.
 
 ```{r}
-pacman::p_load(rstan, rstanarm, tidyverse, ggplot2, car, dplyr)
+pacman::p_load(rstan, rstanarm, tidyverse, ggplot2, car)
 ```
 
 
@@ -152,8 +152,12 @@ Based on this model, our recommendation would be to complete as many educational
 (c) Now create an indicator variable reflecting whether the mother has completed high school or not. Consider interactions between high school completion and mother’s age. Also create a plot that shows the separate regression lines for each high school completion status group.
 
 ```{r}
-#Load data
-kid_df = read_csv("kidiq.csv") %>% mutate(mom_hs = as.factor(mom_hs))
+#mutating
+child_df <- mutate(child_df, mom_hs = if_else(mom_education<2,"0","1"))
+
+child_df <- child_df %>% mutate(mom_hs = as.factor(mom_hs))
+
+#kid_df = read_csv("kidiq.csv") %>% mutate(mom_hs = as.factor(mom_hs))
 ```
 
 
@@ -239,24 +243,27 @@ while uneducated women should aim for giving birth earlier.
 (d) Finally, fit a regression of child test scores on mother’s age and education level for the first 200 children and use this model to predict test scores for the next 200. Graphically display comparisons of the predicted and actual scores for the final 200 children.
 
 ```{r}
-train_data = kid_df %>% slice_head(n=200)
-test_data = kid_df %>% slice_tail(n=200)
+train_data = child_df %>% slice_head(n=200)
+test_data = child_df %>% slice_tail(n=200)
 
 draw = 2
 
-model_4 = stan_glm(kid_score ~ mom_age * mom_hs, data=train_data, refresh=0)
+model_4 = stan_glm(child_score ~ mom_age * mom_hs, data=train_data, refresh=0)
 predictive_distribution = posterior_predict(model_4, newdata = test_data, draw=draw)
+head(predictive_distribution)
 predictions = data.frame(t(predictive_distribution))
+#predictions$mean_score <- rowMeans(predictions)
+#predictions <- predictions[-c(1:draw)]
 test_data = test_data %>%
   mutate(age_factor=as.factor(mom_age)) %>% 
-  relocate(kid_score, .after=age_factor) %>% 
+  relocate(child_score, .after=age_factor) %>% 
   bind_cols(predictions) %>% 
   gather(
     key="label",
-    value="kid_score",
-    6:(6+draw)
+    value="child_score",
+    5:(5+draw)
   ) %>% 
-  mutate(label=if_else(label=="kid_score", "real", "predicted"))
+  mutate(label=if_else(label=="child_score", "real", "predicted"))
 
 mom_no_hs_df = test_data %>% filter(mom_hs == 0)
 mom_hs_df = test_data %>% filter(mom_hs == 1)
@@ -266,12 +273,12 @@ slope.mom_age = model_4$coefficients[["mom_age"]]
 slope.mom_high_school = model_4$coefficients[["mom_hs1"]]
 slope.interaction = model_4$coefficients[["mom_age:mom_hs1"]]
 
-mom_no_hs_df %>% ggplot(aes(x = age_factor, y = kid_score, col=label)) +
+mom_no_hs_df %>% ggplot(aes(x = age_factor, y = child_score, col=label)) +
   geom_point(position= position_jitter(width = 0.1, height = 0)) +
   geom_abline(intercept = intercept, slope = slope.mom_age) +
   ggtitle("Mother does not have high school education")
 
-mom_hs_df %>% ggplot(aes(x = age_factor, y=kid_score, col=label)) +
+mom_hs_df %>% ggplot(aes(x = age_factor, y=child_score, col=label)) +
   geom_point(position = position_jitter(width = 0.1, height = 0)) +
   geom_abline(
     intercept = intercept + slope.mom_high_school,
@@ -314,7 +321,7 @@ df_bea %>%
 ```{r}
 plot(lm(eval~beauty, data = df_bea), 1)
 ```
-In conclusion, our Intercept coefficient tells us that when beauty scores are equal to 0, evaluations would be 4.0. For each increment in beauty score, your evaluation would increase by 0.1. The estimate of these values have quite peak distibutions with a standard deviation of 0.0. The distribution of residuals are quite wide, as sigma = 0.5, which describes the resudual standard deviation.
+In conclusion, our Intercept coefficient tells us that when beauty scores are equal to 0, evaluations would be 4.0. For each increment in beauty score, your evaluation would increase by 0.1. The estimate of these values have quite peak distributions with a standard deviation of 0.0. The distribution of residuals are quite wide, as sigma = 0.5, sigma squared describes the residual standard deviation.
 
 (b) Fit some other models, including beauty and also other predictors. Consider at least one model with interactions. For each model, explain the meaning of each of its estimated coefficients.
 ```{r}
@@ -323,7 +330,9 @@ summary(model_bea1)
 model_bea3 <- stan_glm(eval ~ beauty * female, data= df_bea, refresh=0)
 summary(model_bea3)
 ```
+In the model eval ~ beauty + age, the beauty coefficient describes that for each increment in beauty score, you get a increase in evaluation of 0.1 points, whereas age does not seem to be related. The intercept describes the evaluation score at beauty = 0. The sigma of 0.5 is quite large, which indicates that the data points are widely spread around the linear prediction line.
 
+In the model eval ~ beauty * female, the beauty coefficient describes that for each increment in beauty score, you get a increase in evaluation of 0.2 points. Furthermore, if you are female, your evaluation is 0.2 lower than if you are male. The interaction coefficient shows that if you're female, then the slope will be 0.1 less steep than if you aren't 
 
 See also Felton, Mitchell, and Stinson (2003) for more on this topic.
 
@@ -333,30 +342,26 @@ _Predictive simulation for linear regression:_ Take one of the models from the p
 
 (a) Instructor A is a 50-year-old woman who is a native English speaker and has a beauty score of −1. Instructor B is a 60-year-old man who is a native English speaker and has a beauty score of −0.5. Simulate 1000 random draws of the course evaluation rating of these two instructors. In your simulation, use posterior_predict to account for the uncertainty in the regression parameters as well as predictive uncertainty.
 ```{r}
-new1 <- data_frame(age=50, beauty=-1, female=1)
-new2 <- data_frame(age=60, beauty=-0.5, female=0)
-y_postpred1 <- posterior_predict(model_bea3, newdata = new1,draws=1000 )
-y_postpred2 <- posterior_predict(model_bea3, newdata = new2,draws=1000 )
+newA <- data_frame(age=50, beauty=-1, female=1)
+newB <- data_frame(age=60, beauty=-0.5, female=0)
+y_postpredA <- posterior_predict(model_bea3, newdata = newA,draws=1000 )
+y_postpredB <- posterior_predict(model_bea3, newdata = newB,draws=1000 )
 
-y_diff <- (y_postpred2-y_postpred1)
-y_diff <- data.frame(y_diff)
-result <- filter(y_diff, X1>0)
+y_diff <- as.data.frame(y_postpredA-y_postpredB)
+colnames(y_diff) <- "X"
 
-nrow(result)
+summary(y_postpredA)
+summary(y_postpredB)
+hist(y_postpredA)
+hist(y_postpredB)
 
-y_diff %>% 
-  filter(rowSums(across(where(is.numeric)) > 0)1000)
-
-
-summary(y_postpred1)
-summary(y_postpred2)
-hist(y_postpred1)
-hist(y_postpred2)
-
-plot(density(y_postpred1-y_postpred2))
-length(filter(y_diff>0))
-y_diff
 
 ```
 
 (b) Make a histogram of the difference between the course evaluations for A and B. What is the probability that A will have a higher evaluation?
+
+```{r}
+hist(y_postpredA-y_postpredB)
+nrow(filter(y_diff,X>0))/1000
+```
+The probability of A having a higher evaluation is 39%.
