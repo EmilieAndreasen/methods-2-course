@@ -1,0 +1,1304 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Methods 2 -- Portfolio Assignment 3},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Methods 2 -- Portfolio Assignment 3}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Type:} Group assignment
+\item
+  \emph{Due:} 8 May 2022, 23:59
+\item
+  \emph{Instructions:} All problems are exercises from \emph{Regression
+  and Other Stories}. Please edit this file here and add your solutions.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pacman}\SpecialCharTok{::}\FunctionTok{p\_load}\NormalTok{(rstan, rstanarm, tidyverse, ggplot2, car, dplyr, bayesplot, brms)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{exercise-10.5}{%
+\subsection{1. Exercise 10.5}\label{exercise-10.5}}
+
+\emph{Regression modeling and prediction:} The folder \texttt{KidIQ}
+contains a subset of the children and mother data discussed earlier in
+the chapter. You have access to childrens test scores at age 3, mothers
+education, and the mothers age at the time she gave birth for a sample
+of 400 children.
+
+\hypertarget{loading-data}{%
+\subsubsection{Loading data}\label{loading-data}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{child\_df }\OtherTok{=} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"child\_iq.csv"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{( }\CommentTok{\#Renaming some things so that it\textquotesingle{}s easier to deal with}
+    \AttributeTok{child\_score =}\NormalTok{ ppvt,}
+    \AttributeTok{mom\_education =}\NormalTok{ educ\_cat,}
+    \AttributeTok{mom\_age=}\NormalTok{momage,}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(}\FunctionTok{c}\NormalTok{(child\_score, mom\_education, mom\_age))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 400 Columns: 3
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## dbl (3): ppvt, educ_cat, momage
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(child\_df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 3
+##   child_score mom_education mom_age
+##         <dbl>         <dbl>   <dbl>
+## 1         120             2      21
+## 2          89             1      17
+## 3          78             2      19
+## 4          42             1      20
+## 5         115             4      26
+## 6          97             1      20
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(child\_df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## tibble [400 x 3] (S3: tbl_df/tbl/data.frame)
+##  $ child_score  : num [1:400] 120 89 78 42 115 97 94 68 103 94 ...
+##  $ mom_education: num [1:400] 2 1 2 1 4 1 1 2 3 3 ...
+##  $ mom_age      : num [1:400] 21 17 19 20 26 20 20 24 19 24 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Function to get the confidence interval}
+\CommentTok{\#Because of the nature of simulations the output of the functions will not necessarily match the reported confident intervals. Since the posterior distribution is rarely normal, we use bootstrapping to obtain an estimate of the confidence intervals instead of using the standard deviation for calculating it.}
+
+\NormalTok{confidence\_interval }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(v) \{}
+\NormalTok{  q }\OtherTok{=} \FunctionTok{quantile}\NormalTok{(v, }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\FloatTok{0.95}\NormalTok{))}
+  \FunctionTok{c}\NormalTok{(q[[}\StringTok{"5\%"}\NormalTok{]], q[[}\StringTok{"95\%"}\NormalTok{]])}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\emph{(a) Fit a regression of child test scores on mother age, display
+the data and fitted model, check assumptions, and interpret the slope
+coefficient. Based on this analysis, when do you recommend mothers
+should give birth? What are you assuming in making this recommendation?}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\CommentTok{\#Fitting model}
+\NormalTok{model }\OtherTok{=} \FunctionTok{stan\_glm}\NormalTok{(child\_score }\SpecialCharTok{\textasciitilde{}}\NormalTok{ mom\_age, }\AttributeTok{data=}\NormalTok{child\_df, }\AttributeTok{refresh=} \DecValTok{0}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Model Info:
+##  function:     stan_glm
+##  family:       gaussian [identity]
+##  formula:      child_score ~ mom_age
+##  algorithm:    sampling
+##  sample:       4000 (posterior sample size)
+##  priors:       see help('prior_summary')
+##  observations: 400
+##  predictors:   2
+## 
+## Estimates:
+##               mean   sd   10%   50%   90%
+## (Intercept) 68.0    8.7 57.2  67.9  79.0 
+## mom_age      0.8    0.4  0.4   0.8   1.3 
+## sigma       20.4    0.7 19.4  20.4  21.3 
+## 
+## Fit Diagnostics:
+##            mean   sd   10%   50%   90%
+## mean_PPD 87.0    1.5 85.1  87.0  88.8 
+## 
+## The mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help('summary.stanreg')).
+## 
+## MCMC diagnostics
+##               mcse Rhat n_eff
+## (Intercept)   0.1  1.0  4096 
+## mom_age       0.0  1.0  4063 
+## sigma         0.0  1.0  3752 
+## mean_PPD      0.0  1.0  3550 
+## log-posterior 0.0  1.0  1570 
+## 
+## For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model}\SpecialCharTok{$}\NormalTok{coef}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## (Intercept)     mom_age 
+##  67.9078702   0.8357787
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Obtaining the results of the simulations and turning them into a tibble}
+\NormalTok{simulations }\OtherTok{=} \FunctionTok{as.matrix}\NormalTok{(model) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{data.frame}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{tibble}\NormalTok{()}
+\FunctionTok{density}\NormalTok{(simulations}\SpecialCharTok{$}\NormalTok{mom\_age) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{plot}\NormalTok{(}\AttributeTok{main =} \StringTok{"Density plot of simulations of mom age"}\NormalTok{, }\AttributeTok{col=}\StringTok{"blue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment_final_3_revisited_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{density}\NormalTok{(simulations}\SpecialCharTok{$}\NormalTok{sigma) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{plot}\NormalTok{(}\AttributeTok{main =} \StringTok{"Density plot of sigma of the simulation"}\NormalTok{, }\AttributeTok{col=}\StringTok{"blue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment_final_3_revisited_files/figure-latex/unnamed-chunk-5-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(simulations)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## tibble [4,000 x 3] (S3: tbl_df/tbl/data.frame)
+##  $ X.Intercept.: num [1:4000] 72.7 79.3 56.2 53.9 79.2 ...
+##  $ mom_age     : num [1:4000] 0.653 0.387 1.277 1.365 0.433 ...
+##  $ sigma       : num [1:4000] 20.9 20.9 19.7 20.3 20.3 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#getting the confidence intervals of the posterior distribution}
+\FunctionTok{confidence\_interval}\NormalTok{(simulations}\SpecialCharTok{$}\NormalTok{X.Intercept.)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 53.79683 82.27133
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confidence\_interval}\NormalTok{(simulations}\SpecialCharTok{$}\NormalTok{mom\_age)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.2119849 1.4477430
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confidence\_interval}\NormalTok{(simulations}\SpecialCharTok{$}\NormalTok{sigma)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 19.21675 21.60835
+\end{verbatim}
+
+From this initial modelling attempt it seems that the higher age of the
+mother corresponds with a higher child IQ score; it is apparent that for
+each increment in mothers age, child IQ increases with 0.84 points with
+a 95\% confidence interval {[}0.20, 1.46{]}.
+
+Assuming that the only thing predicting and influencing the child's IQ
+is the mother's age, this tendency would indicate that women should have
+children later in life. So the older the mother the higher the child's
+IQ. Moreover, this recommendation is based solely on the assumption that
+the ultimate consideration for when to give birth is to maximize child
+IQ.
+
+It has to be noted that the estimate of sigma is quite large, suggesting
+that the model leaves a lot of unexplained variance in the data.
+
+The effect size of 0.84 is relatively small as well. Even if there is a
+relationship between mom's age and child IQ, it is not particularly
+strong.
+
+\hypertarget{checking-assumptions}{%
+\subsubsection{Checking assumptions}\label{checking-assumptions}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+
+\CommentTok{\#Checking normality of residuals}
+\FunctionTok{hist}\NormalTok{(model}\SpecialCharTok{$}\NormalTok{residuals, }\AttributeTok{main =}\StringTok{"Residuals of the model"}\NormalTok{)}
+\FunctionTok{shapiro.test}\NormalTok{(model}\SpecialCharTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Shapiro-Wilk normality test
+## 
+## data:  model$residuals
+## W = 0.97529, p-value = 2.534e-06
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{qqnorm}\NormalTok{(model}\SpecialCharTok{$}\NormalTok{residuals, }\AttributeTok{pch =} \DecValTok{1}\NormalTok{, }\AttributeTok{frame =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{qqline}\NormalTok{(model}\SpecialCharTok{$}\NormalTok{residuals, }\AttributeTok{col =} \StringTok{"steelblue"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+
+\CommentTok{\#checking for homoscedasticity}
+\FunctionTok{bartlett.test}\NormalTok{(child\_score }\SpecialCharTok{\textasciitilde{}}\NormalTok{ mom\_age, }\AttributeTok{data=}\NormalTok{child\_df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Bartlett test of homogeneity of variances
+## 
+## data:  child_score by mom_age
+## Bartlett's K-squared = 14.674, df = 12, p-value = 0.2598
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Residual vs fitted plot}
+\NormalTok{res}\OtherTok{=}\NormalTok{model}\SpecialCharTok{$}\NormalTok{residuals}
+\NormalTok{standardized\_res }\OtherTok{\textless{}{-}}\NormalTok{ (res }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(res))}\SpecialCharTok{/}\FunctionTok{sd}\NormalTok{(res)}
+
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(model), standardized\_res)}
+\FunctionTok{abline}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment_final_3_revisited_files/figure-latex/unnamed-chunk-7-1.pdf}
+We can see that the residuals of the model are not normally distributed,
+but the variances are homogeneous. By visual inspection, we can see that
+the assumption of linearity is not broken either. For the highest and
+lowest values of x, homogeneity of the variance is mildly violated.
+However, this might be because of the sparsity of the data, but does not
+pose a problem.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#plotting the model}
+\NormalTok{intercept }\OtherTok{=}\NormalTok{ model}\SpecialCharTok{$}\NormalTok{coefficients[[}\StringTok{"(Intercept)"}\NormalTok{]]}
+\NormalTok{slope.mom\_age }\OtherTok{=}\NormalTok{ model}\SpecialCharTok{$}\NormalTok{coefficients[[}\StringTok{"mom\_age"}\NormalTok{]]}
+\NormalTok{child\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ mom\_age, }\AttributeTok{y =}\NormalTok{ child\_score)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_abline}\NormalTok{(}
+    \AttributeTok{data=}\NormalTok{simulations,}
+    \FunctionTok{aes}\NormalTok{(}
+      \AttributeTok{intercept =}\NormalTok{ X.Intercept.,}
+      \AttributeTok{slope =}\NormalTok{ mom\_age}
+\NormalTok{    ),}
+    \AttributeTok{alpha=}\FloatTok{0.002}\NormalTok{,}
+    \AttributeTok{color=}\StringTok{"red"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{geom\_abline}\NormalTok{(}
+    \AttributeTok{intercept =}\NormalTok{ intercept,}
+    \AttributeTok{slope=}\NormalTok{slope.mom\_age,}
+    \AttributeTok{color=}\StringTok{"orange"}\NormalTok{,}
+    \AttributeTok{size=}\DecValTok{1}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment_final_3_revisited_files/figure-latex/unnamed-chunk-8-1.pdf}
+All posterior simulations are plotted, with the orange line representing
+the mean of the posterior intercept and slope.
+
+Upon visual inspection it becomes even more clear how weak of a
+relationship there is between mom's age and a child's IQ score. There is
+a lot of noise around the regression line.
+
+\emph{(b) Repeat this for a regression that further includes mothers
+education, interpreting both slope coefficients in this model. Have your
+conclusions about the timing of birth changed?}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+
+\CommentTok{\#Factorize mom\_education. Divide mom\_education into high school or not (for next exercise)}
+\NormalTok{child\_df }\OtherTok{\textless{}{-}} \FunctionTok{mutate}\NormalTok{(child\_df, }\AttributeTok{mom\_hs =} \FunctionTok{if\_else}\NormalTok{(mom\_education}\SpecialCharTok{\textless{}}\DecValTok{2}\NormalTok{,}\StringTok{"0"}\NormalTok{,}\StringTok{"1"}\NormalTok{))}
+\NormalTok{child\_df }\OtherTok{\textless{}{-}}\NormalTok{ child\_df }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{mom\_education =} \FunctionTok{as.factor}\NormalTok{(mom\_education))}
+
+\CommentTok{\#Making a model}
+\NormalTok{model\_2 }\OtherTok{=} \FunctionTok{stan\_glm}\NormalTok{(child\_score }\SpecialCharTok{\textasciitilde{}}\NormalTok{ mom\_education }\SpecialCharTok{+}\NormalTok{ mom\_age, }\AttributeTok{data=}\NormalTok{child\_df, }\AttributeTok{refresh=}\DecValTok{0}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(model\_2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Model Info:
+##  function:     stan_glm
+##  family:       gaussian [identity]
+##  formula:      child_score ~ mom_education + mom_age
+##  algorithm:    sampling
+##  sample:       4000 (posterior sample size)
+##  priors:       see help('prior_summary')
+##  observations: 400
+##  predictors:   5
+## 
+## Estimates:
+##                  mean   sd   10%   50%   90%
+## (Intercept)    72.2    8.9 60.9  72.3  83.5 
+## mom_education2 10.0    2.6  6.6  10.0  13.2 
+## mom_education3  8.8    3.2  4.7   8.8  13.0 
+## mom_education4 17.6    4.6 11.7  17.6  23.5 
+## mom_age         0.3    0.4 -0.2   0.3   0.8 
+## sigma          20.0    0.7 19.1  19.9  20.9 
+## 
+## Fit Diagnostics:
+##            mean   sd   10%   50%   90%
+## mean_PPD 87.0    1.4 85.1  86.9  88.8 
+## 
+## The mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help('summary.stanreg')).
+## 
+## MCMC diagnostics
+##                mcse Rhat n_eff
+## (Intercept)    0.1  1.0  4274 
+## mom_education2 0.1  1.0  2441 
+## mom_education3 0.1  1.0  2674 
+## mom_education4 0.1  1.0  2772 
+## mom_age        0.0  1.0  3776 
+## sigma          0.0  1.0  4838 
+## mean_PPD       0.0  1.0  3916 
+## log-posterior  0.0  1.0  1794 
+## 
+## For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{simulations\_2 }\OtherTok{=} \FunctionTok{as.matrix}\NormalTok{(model\_2) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{data.frame}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{tibble}\NormalTok{()}
+
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\FunctionTok{density}\NormalTok{(simulations\_2}\SpecialCharTok{$}\NormalTok{X.Intercept.) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{plot}\NormalTok{(}\AttributeTok{main =} \StringTok{"Intercept of mom education"}\NormalTok{, }\AttributeTok{col=}\StringTok{"blue"}\NormalTok{)}
+
+
+\FunctionTok{density}\NormalTok{(simulations\_2}\SpecialCharTok{$}\NormalTok{mom\_education2) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{plot}\NormalTok{(}\AttributeTok{main =} \StringTok{"Slope for mom graduating HS "}\NormalTok{, }\AttributeTok{col=}\StringTok{"blue"}\NormalTok{)}
+
+\FunctionTok{density}\NormalTok{(simulations\_2}\SpecialCharTok{$}\NormalTok{mom\_education3) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{plot}\NormalTok{(}\AttributeTok{main =} \StringTok{"Slope for mom accoplishing some college"}\NormalTok{, }\AttributeTok{col=}\StringTok{"blue"}\NormalTok{)}
+
+\FunctionTok{density}\NormalTok{(simulations\_2}\SpecialCharTok{$}\NormalTok{mom\_education4) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{plot}\NormalTok{(}\AttributeTok{main =} \StringTok{"Slope for mom graduating college"}\NormalTok{, }\AttributeTok{col=}\StringTok{"blue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment_final_3_revisited_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{density}\NormalTok{(simulations\_2}\SpecialCharTok{$}\NormalTok{mom\_age) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{plot}\NormalTok{(}\AttributeTok{main =} \StringTok{"Density plot of simulations of mom age"}\NormalTok{, }\AttributeTok{col=}\StringTok{"blue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment_final_3_revisited_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{density}\NormalTok{(simulations\_2}\SpecialCharTok{$}\NormalTok{sigma) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{plot}\NormalTok{(}\AttributeTok{main =} \StringTok{"Density plot of sigma of the simulation"}\NormalTok{, }\AttributeTok{col=}\StringTok{"blue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment_final_3_revisited_files/figure-latex/unnamed-chunk-11-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confidence\_interval}\NormalTok{(simulations\_2}\SpecialCharTok{$}\NormalTok{mom\_age)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.3707220  0.9268552
+\end{verbatim}
+
+Educational level of the mother seems to be is a better predictor of
+children's IQ, rather than their mothers' age. The posterior of the
+coefficient for mom\_age in this model hovers around 0, 95\% confidence
+interval {[}-0.35, 0.92{]}. This supports the notion that mom\_age does
+not explain much of the variance of child IQ.
+
+Based on this model, our recommendation would be to complete as many
+educational programs as possible before having children. Therefore, our
+recommendations are no longer based on the age of the mother, but on her
+educational level. For maximizing a child's IQ, our recommendation is
+that women should have children after completing an entire college
+degree.
+
+\emph{(c) Now create an indicator variable reflecting whether the mother
+has completed high school or not. Consider interactions between high
+school completion and mothers age. Also create a plot that shows the
+separate regression lines for each high school completion status group.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Adding a new column }
+
+
+\NormalTok{child\_df }\OtherTok{\textless{}{-}}\NormalTok{ child\_df }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{mom\_hs =} \FunctionTok{as.factor}\NormalTok{(mom\_hs))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+
+\CommentTok{\#Creating model}
+\NormalTok{model\_3 }\OtherTok{=} \FunctionTok{stan\_glm}\NormalTok{(child\_score }\SpecialCharTok{\textasciitilde{}}\NormalTok{ mom\_age }\SpecialCharTok{*}\NormalTok{ mom\_hs, }\AttributeTok{data=}\NormalTok{child\_df, }\AttributeTok{refresh=}\DecValTok{0}\NormalTok{)}
+\NormalTok{simulations\_3 }\OtherTok{=} \FunctionTok{as.matrix}\NormalTok{(model\_3) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{data.frame}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{tibble}\NormalTok{()}
+\FunctionTok{summary}\NormalTok{(model\_3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Model Info:
+##  function:     stan_glm
+##  family:       gaussian [identity]
+##  formula:      child_score ~ mom_age * mom_hs
+##  algorithm:    sampling
+##  sample:       4000 (posterior sample size)
+##  priors:       see help('prior_summary')
+##  observations: 400
+##  predictors:   4
+## 
+## Estimates:
+##                   mean   sd    10%   50%   90%
+## (Intercept)     103.4   17.4  81.5 103.3 125.3
+## mom_age          -1.2    0.8  -2.2  -1.2  -0.2
+## mom_hs1         -36.1   20.0 -61.2 -36.2 -10.9
+## mom_age:mom_hs1   2.1    0.9   1.0   2.1   3.3
+## sigma            19.9    0.7  19.0  19.9  20.8
+## 
+## Fit Diagnostics:
+##            mean   sd   10%   50%   90%
+## mean_PPD 87.0    1.4 85.2  86.9  88.7 
+## 
+## The mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help('summary.stanreg')).
+## 
+## MCMC diagnostics
+##                 mcse Rhat n_eff
+## (Intercept)     0.5  1.0  1205 
+## mom_age         0.0  1.0  1199 
+## mom_hs1         0.6  1.0  1050 
+## mom_age:mom_hs1 0.0  1.0  1033 
+## sigma           0.0  1.0  2307 
+## mean_PPD        0.0  1.0  3057 
+## log-posterior   0.0  1.0  1216 
+## 
+## For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confidence\_interval}\NormalTok{(simulations\_3}\SpecialCharTok{$}\NormalTok{mom\_age)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -2.4641959  0.1265183
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Plotting the posterior distributions of the estimates}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\FunctionTok{density}\NormalTok{(}
+\NormalTok{  simulations\_3}\SpecialCharTok{$}\NormalTok{X.Intercept.) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{plot}\NormalTok{(}\AttributeTok{col=}\StringTok{"blue"}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"Post. of intercept {-} not completed HS"}\NormalTok{)}
+
+
+\FunctionTok{density}\NormalTok{(}
+\NormalTok{  simulations\_3}\SpecialCharTok{$}\NormalTok{mom\_age) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{plot}\NormalTok{(}\AttributeTok{col=}\StringTok{"blue"}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"Post. of slope of age {-}  not completed HS"}\NormalTok{)}
+
+
+\FunctionTok{density}\NormalTok{(}
+\NormalTok{  simulations\_3}\SpecialCharTok{$}\NormalTok{mom\_hs1 }\SpecialCharTok{+}\NormalTok{ simulations\_3}\SpecialCharTok{$}\NormalTok{X.Intercept.) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{plot}\NormalTok{(}\AttributeTok{col=}\StringTok{"pink"}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"Post. of intercept {-} completed HS"}\NormalTok{)}
+
+\FunctionTok{density}\NormalTok{(}
+\NormalTok{  simulations\_3}\SpecialCharTok{$}\NormalTok{mom\_age.mom\_hs1 }\SpecialCharTok{+}\NormalTok{ simulations\_3}\SpecialCharTok{$}\NormalTok{mom\_age) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{plot}\NormalTok{(}\AttributeTok{col=}\StringTok{"pink"}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"Post. of slope of age {-} completed HS"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment_final_3_revisited_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{density}\NormalTok{(simulations\_3}\SpecialCharTok{$}\NormalTok{mom\_hs1) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{plot}\NormalTok{(}\AttributeTok{main=}\StringTok{"Post. of difference between intercepts"}\NormalTok{, }\AttributeTok{col =} \StringTok{"purple"}\NormalTok{)}
+
+\FunctionTok{density}\NormalTok{(simulations\_3}\SpecialCharTok{$}\NormalTok{sigma) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{plot}\NormalTok{(}\AttributeTok{main =} \StringTok{"Post. of sigma"}\NormalTok{, }\AttributeTok{col=}\StringTok{"green"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment_final_3_revisited_files/figure-latex/unnamed-chunk-15-2.pdf}
+\#\#\# Plotting mcmc\_intervals
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{color\_scheme\_set}\NormalTok{(}\StringTok{"red"}\NormalTok{)}
+\FunctionTok{mcmc\_intervals}\NormalTok{(model\_2, }\AttributeTok{pars =} \FunctionTok{c}\NormalTok{(}\StringTok{"(Intercept)"}\NormalTok{, }\StringTok{"mom\_education2"}\NormalTok{,}\StringTok{"mom\_education3"}\NormalTok{,}\StringTok{"mom\_education4"}\NormalTok{,}\StringTok{"mom\_age"}\NormalTok{,}\StringTok{"sigma"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment_final_3_revisited_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Plotting the model}
+\NormalTok{intercept }\OtherTok{=}\NormalTok{ model\_3}\SpecialCharTok{$}\NormalTok{coefficients[[}\StringTok{"(Intercept)"}\NormalTok{]]}
+\NormalTok{slope.mom\_age }\OtherTok{=}\NormalTok{ model\_3}\SpecialCharTok{$}\NormalTok{coefficients[[}\StringTok{"mom\_age"}\NormalTok{]]}
+\NormalTok{slope.mom\_high\_school }\OtherTok{=}\NormalTok{ model\_3}\SpecialCharTok{$}\NormalTok{coefficients[[}\StringTok{"mom\_hs1"}\NormalTok{]]}
+\NormalTok{slope.interaction }\OtherTok{=}\NormalTok{ model\_3}\SpecialCharTok{$}\NormalTok{coefficients[[}\StringTok{"mom\_age:mom\_hs1"}\NormalTok{]]}
+
+\NormalTok{mom\_no\_hs\_df }\OtherTok{=}\NormalTok{ child\_df }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(mom\_hs }\SpecialCharTok{==} \DecValTok{0}\NormalTok{)}
+\NormalTok{mom\_hs\_df }\OtherTok{=}\NormalTok{ child\_df }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(mom\_hs }\SpecialCharTok{==} \DecValTok{1}\NormalTok{)}
+
+\NormalTok{mom\_no\_hs\_df }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ mom\_age, }\AttributeTok{y =}\NormalTok{ child\_score)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_abline}\NormalTok{(}
+    \AttributeTok{data=}\NormalTok{simulations\_3,}
+    \FunctionTok{aes}\NormalTok{(}
+      \AttributeTok{intercept =}\NormalTok{ X.Intercept.,}
+      \AttributeTok{slope =}\NormalTok{ mom\_age}
+\NormalTok{    ),}
+    \AttributeTok{alpha=}\FloatTok{0.002}\NormalTok{,}
+    \AttributeTok{color=}\StringTok{"red"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{geom\_abline}\NormalTok{(}\AttributeTok{intercept =}\NormalTok{ intercept, }\AttributeTok{slope =}\NormalTok{ slope.mom\_age, }\AttributeTok{color=}\StringTok{"red"}\NormalTok{, }\AttributeTok{size=}\DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Mother does not have high school education"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment_final_3_revisited_files/figure-latex/unnamed-chunk-17-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mom\_hs\_df }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ mom\_age, }\AttributeTok{y=}\NormalTok{child\_score)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_abline}\NormalTok{(}
+    \AttributeTok{data=}\NormalTok{simulations\_3,}
+    \FunctionTok{aes}\NormalTok{(}
+      \AttributeTok{intercept =}\NormalTok{ X.Intercept. }\SpecialCharTok{+}\NormalTok{ mom\_hs1,}
+      \AttributeTok{slope =}\NormalTok{ mom\_age.mom\_hs1 }\SpecialCharTok{+}\NormalTok{ mom\_age}
+\NormalTok{    ),}
+    \AttributeTok{alpha=}\FloatTok{0.002}\NormalTok{,}
+    \AttributeTok{color=}\StringTok{"blue"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{geom\_abline}\NormalTok{(}
+    \AttributeTok{intercept =}\NormalTok{ intercept }\SpecialCharTok{+}\NormalTok{ slope.mom\_high\_school,}
+    \AttributeTok{slope =}\NormalTok{ slope.mom\_age }\SpecialCharTok{+}\NormalTok{ slope.interaction,}
+    \AttributeTok{color =} \StringTok{"blue"}\NormalTok{,}
+    \AttributeTok{size=}\DecValTok{1}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Mother has high school education"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment_final_3_revisited_files/figure-latex/unnamed-chunk-17-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confidence\_interval}\NormalTok{(simulations\_3}\SpecialCharTok{$}\NormalTok{mom\_hs1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -69.946934  -4.336888
+\end{verbatim}
+
+The mean of the posterior intercept is 102.9 with a standard deviation
+of 17.1. The mean of the posterior slope for mom\_age is -1.1 (SD =
+0.8), meaning that child IQ slightly decreases as mothers without high
+school degrees get older. It has to be noted that there is a lot of
+uncertainty around the relationship, demonstrated by the 95\% confidence
+interval of {[}-2.44, 0.13{]}.
+
+The mean of the posterior slope of moms completing high school is -35.6
+(SD = 19.6), meaning that the baseline of child IQ decreases when moms
+complete high school. However, the magnitude of the decrease is of great
+uncertainty (CI: {[}-67.48 -3.31{]}).
+
+The mean of the posterior slope of the interaction effect is 2.1 (SD =
+0.9), showing that there is an antagonistic interaction between the age
+of the mother, and whether they have completed high school. As moms get
+older and complete a high school degree, child IQ increases.
+
+Thus it seems advisable for educated women to have children later on in
+their lives, while uneducated women should aim for giving birth earlier.
+
+\emph{(d) Finally, fit a regression of child test scores on mothers age
+and education level for the first 200 children and use this model to
+predict test scores for the next 200. Graphically display comparisons of
+the predicted and actual scores for the final 200 children.}
+
+\hypertarget{dividing-the-data}{%
+\subsubsection{Dividing the data}\label{dividing-the-data}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train\_data }\OtherTok{=}\NormalTok{ child\_df }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_head}\NormalTok{(}\AttributeTok{n=}\DecValTok{200}\NormalTok{)}
+\NormalTok{test\_data }\OtherTok{=}\NormalTok{ child\_df }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{slice\_tail}\NormalTok{(}\AttributeTok{n=}\DecValTok{200}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model\_4 }\OtherTok{=} \FunctionTok{stan\_glm}\NormalTok{(child\_score }\SpecialCharTok{\textasciitilde{}}\NormalTok{ mom\_age }\SpecialCharTok{*}\NormalTok{ mom\_hs, }\AttributeTok{data=}\NormalTok{train\_data, }\AttributeTok{refresh=}\DecValTok{0}\NormalTok{)}
+
+\NormalTok{predictive\_distribution }\OtherTok{=} \FunctionTok{posterior\_predict}\NormalTok{(model\_4, }\AttributeTok{newdata =}\NormalTok{ test\_data, }\AttributeTok{draws=}\DecValTok{100}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{plotting-the-observed-and-the-posterior-predict-by-high-school-completion}{%
+\subsubsection{Plotting the observed and the posterior predict by high
+school
+completion}\label{plotting-the-observed-and-the-posterior-predict-by-high-school-completion}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ppc\_dens\_overlay\_grouped}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{child\_score, predictive\_distribution, }\AttributeTok{trim =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{size =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{alpha =} \DecValTok{1}\NormalTok{, }\AttributeTok{group =}\NormalTok{ test\_data}\SpecialCharTok{$}\NormalTok{mom\_hs) }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Density plot of child IQ scores"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment_final_3_revisited_files/figure-latex/unnamed-chunk-21-1.pdf}
+
+It seems that the model generalizes better for educated women (1), which
+is seen by the uncertainty shown in the plot for uneducated women(0).
+This can be due to the fact that the dataset contains more data from
+women who completed high school.
+
+\hypertarget{exercise-10.6}{%
+\subsection{2. Exercise 10.6}\label{exercise-10.6}}
+
+\emph{Regression models with interactions:} The folder \texttt{Beauty}
+contains data (use file \texttt{beauty.csv}) from Hamermesh and Parker
+(2005) on student evaluations of instructors beauty and teaching quality
+for several courses at the University of Texas. The teaching evaluations
+were conducted at the end of the semester, and the beauty judgments were
+made later, by six students who had not attended the classes and were
+not aware of the course evaluations.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df\_bea }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"beauty.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 463 Columns: 8
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## dbl (8): eval, beauty, female, age, minority, nonenglish, lower, course_id
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df\_bea}\SpecialCharTok{$}\NormalTok{female }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(df\_bea}\SpecialCharTok{$}\NormalTok{female)}
+\NormalTok{df\_bea}\SpecialCharTok{$}\NormalTok{minority }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(df\_bea}\SpecialCharTok{$}\NormalTok{minority)}
+\end{Highlighting}
+\end{Shaded}
+
+\emph{(a) Run a regression using beauty (the variable \texttt{beauty})
+to predict course evaluations (\texttt{eval}), adjusting for various
+other predictors. Graph the data and fitted model, and explain the
+meaning of each of the coefficients along with the residual standard
+deviation. Plot the residuals versus fitted values.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model\_bea }\OtherTok{\textless{}{-}} \FunctionTok{stan\_glm}\NormalTok{(eval }\SpecialCharTok{\textasciitilde{}}\NormalTok{ beauty }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ female, }\AttributeTok{data =}\NormalTok{ df\_bea, }\AttributeTok{refresh=}\DecValTok{0}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(model\_bea)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Model Info:
+##  function:     stan_glm
+##  family:       gaussian [identity]
+##  formula:      eval ~ beauty + age + female
+##  algorithm:    sampling
+##  sample:       4000 (posterior sample size)
+##  priors:       see help('prior_summary')
+##  observations: 463
+##  predictors:   4
+## 
+## Estimates:
+##               mean   sd   10%   50%   90%
+## (Intercept)  4.2    0.1  4.0   4.2   4.4 
+## beauty       0.1    0.0  0.1   0.1   0.2 
+## age          0.0    0.0  0.0   0.0   0.0 
+## female1     -0.2    0.1 -0.3  -0.2  -0.1 
+## sigma        0.5    0.0  0.5   0.5   0.6 
+## 
+## Fit Diagnostics:
+##            mean   sd   10%   50%   90%
+## mean_PPD 4.0    0.0  4.0   4.0   4.0  
+## 
+## The mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help('summary.stanreg')).
+## 
+## MCMC diagnostics
+##               mcse Rhat n_eff
+## (Intercept)   0.0  1.0  3727 
+## beauty        0.0  1.0  4475 
+## age           0.0  1.0  3896 
+## female1       0.0  1.0  4439 
+## sigma         0.0  1.0  5203 
+## mean_PPD      0.0  1.0  4481 
+## log-posterior 0.0  1.0  1967 
+## 
+## For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{simulations\_bea }\OtherTok{=} \FunctionTok{as.matrix}\NormalTok{(model\_bea) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{data.frame}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{tibble}\NormalTok{()}
+\NormalTok{df\_bea }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{beauty, }\AttributeTok{y=}\NormalTok{eval, }\AttributeTok{color=}\NormalTok{female))}\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{()}\SpecialCharTok{+}
+  \FunctionTok{geom\_abline}\NormalTok{(}
+    \AttributeTok{data =}\NormalTok{ simulations\_bea,}
+    \FunctionTok{aes}\NormalTok{(}\AttributeTok{intercept=}\NormalTok{X.Intercept.,}
+        \AttributeTok{slope=}\NormalTok{beauty),}
+    \AttributeTok{alpha=}\FloatTok{0.002}\NormalTok{,}
+    \AttributeTok{color=}\StringTok{"red"}
+\NormalTok{  ) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_abline}\NormalTok{(}
+    \AttributeTok{intercept =}\NormalTok{ model\_bea}\SpecialCharTok{$}\NormalTok{coefficients[[}\StringTok{"(Intercept)"}\NormalTok{]],}
+    \AttributeTok{slope=}\NormalTok{model\_bea}\SpecialCharTok{$}\NormalTok{coefficients[[}\StringTok{"beauty"}\NormalTok{]],}
+    \AttributeTok{color=}\StringTok{"orange"}\NormalTok{,}
+    \AttributeTok{size=}\DecValTok{1}
+\NormalTok{  )}\SpecialCharTok{+}
+  \FunctionTok{geom\_abline}\NormalTok{(}
+    \AttributeTok{data =}\NormalTok{ simulations\_bea,}
+    \FunctionTok{aes}\NormalTok{(}\AttributeTok{intercept=}\NormalTok{X.Intercept.}\SpecialCharTok{+}\NormalTok{female1,}
+        \AttributeTok{slope=}\NormalTok{beauty),}
+    \AttributeTok{alpha=}\FloatTok{0.002}\NormalTok{,}
+    \AttributeTok{color=}\StringTok{"blue"}
+\NormalTok{  ) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_abline}\NormalTok{(}
+    \AttributeTok{intercept =}\NormalTok{ model\_bea}\SpecialCharTok{$}\NormalTok{coefficients[[}\StringTok{"(Intercept)"}\NormalTok{]]}\SpecialCharTok{+}\NormalTok{model\_bea}\SpecialCharTok{$}\NormalTok{coefficients[[}\StringTok{"female1"}\NormalTok{]],}
+    \AttributeTok{slope=}\NormalTok{model\_bea}\SpecialCharTok{$}\NormalTok{coefficients[[}\StringTok{"beauty"}\NormalTok{]],}
+    \AttributeTok{color=}\StringTok{"blue"}\NormalTok{,}
+    \AttributeTok{size=}\DecValTok{1}
+\NormalTok{  )}\SpecialCharTok{+} 
+  \FunctionTok{scale\_fill\_brewer}\NormalTok{(}\AttributeTok{palette =} \StringTok{"RdYlGn"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment_final_3_revisited_files/figure-latex/unnamed-chunk-24-1.pdf}
+
+\hypertarget{plotting-the-model}{%
+\subsubsection{Plotting the model}\label{plotting-the-model}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{lm}\NormalTok{(eval}\SpecialCharTok{\textasciitilde{}}\NormalTok{beauty}\SpecialCharTok{+}\NormalTok{age}\SpecialCharTok{+}\NormalTok{female, }\AttributeTok{data =}\NormalTok{ df\_bea), }\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment_final_3_revisited_files/figure-latex/unnamed-chunk-25-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confidence\_interval}\NormalTok{(simulations\_bea}\SpecialCharTok{$}\NormalTok{X.Intercept.)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.992558 4.465654
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confidence\_interval}\NormalTok{(simulations\_bea}\SpecialCharTok{$}\NormalTok{X.Intercept.}\SpecialCharTok{+}\NormalTok{simulations\_bea}\SpecialCharTok{$}\NormalTok{female1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.803332 4.228394
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confidence\_interval}\NormalTok{(simulations\_bea}\SpecialCharTok{$}\NormalTok{age)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.007087483  0.001961996
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confidence\_interval}\NormalTok{(simulations\_bea}\SpecialCharTok{$}\NormalTok{beauty)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.08409304 0.19529500
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confidence\_interval}\NormalTok{(simulations\_bea}\SpecialCharTok{$}\NormalTok{sigma)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5109346 0.5686988
+\end{verbatim}
+
+In this model of evaluation predicted by beauty adjusted for sex and
+age, our Intercept coefficient tells us that when beauty scores are
+equal to 0, evaluations would be 4.2 (95\% CI {[}3.98, 4.47{]}) for
+males and 4.0 (95\% CI {[}3.79, 4.24{]}) for females. Age does not seem
+to be associated with evaluation (M=0.00, 95\% CI {[}-0.01, 0.00{]}. For
+each increment in beauty score, your evaluation would increase by 0.1
+(95\% CI {[}0.08, 0.19{]}). The distribution of residuals are quite
+wide, as sigma = 0.5 (95\% CI {[}0.51, 0.57{]}), and sigma squared
+describes the residual standard deviation.
+
+\emph{(b) Fit some other models, including beauty and also other
+predictors. Consider at least one model with interactions. For each
+model, explain the meaning of each of its estimated coefficients.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model\_bea3 }\OtherTok{\textless{}{-}} \FunctionTok{stan\_glm}\NormalTok{(eval }\SpecialCharTok{\textasciitilde{}}\NormalTok{ beauty }\SpecialCharTok{*}\NormalTok{ female, }\AttributeTok{data=}\NormalTok{ df\_bea, }\AttributeTok{refresh=}\DecValTok{0}\NormalTok{)}
+\NormalTok{simulations\_bea3 }\OtherTok{=} \FunctionTok{as.matrix}\NormalTok{(model\_bea3) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{data.frame}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{tibble}\NormalTok{()}
+\FunctionTok{summary}\NormalTok{(model\_bea3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Model Info:
+##  function:     stan_glm
+##  family:       gaussian [identity]
+##  formula:      eval ~ beauty * female
+##  algorithm:    sampling
+##  sample:       4000 (posterior sample size)
+##  priors:       see help('prior_summary')
+##  observations: 463
+##  predictors:   4
+## 
+## Estimates:
+##                  mean   sd   10%   50%   90%
+## (Intercept)     4.1    0.0  4.1   4.1   4.1 
+## beauty          0.2    0.0  0.1   0.2   0.3 
+## female1        -0.2    0.1 -0.3  -0.2  -0.1 
+## beauty:female1 -0.1    0.1 -0.2  -0.1   0.0 
+## sigma           0.5    0.0  0.5   0.5   0.6 
+## 
+## Fit Diagnostics:
+##            mean   sd   10%   50%   90%
+## mean_PPD 4.0    0.0  4.0   4.0   4.0  
+## 
+## The mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help('summary.stanreg')).
+## 
+## MCMC diagnostics
+##                mcse Rhat n_eff
+## (Intercept)    0.0  1.0  3737 
+## beauty         0.0  1.0  2313 
+## female1        0.0  1.0  3016 
+## beauty:female1 0.0  1.0  2399 
+## sigma          0.0  1.0  3724 
+## mean_PPD       0.0  1.0  3906 
+## log-posterior  0.0  1.0  1663 
+## 
+## For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confidence\_interval}\NormalTok{(simulations\_bea3}\SpecialCharTok{$}\NormalTok{beauty)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.1267174 0.2737587
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confidence\_interval}\NormalTok{(simulations\_bea3}\SpecialCharTok{$}\NormalTok{female1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.2893846 -0.1180167
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confidence\_interval}\NormalTok{(simulations\_bea3}\SpecialCharTok{$}\NormalTok{beauty.female1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.227306139 -0.001883263
+\end{verbatim}
+
+In the model eval \textasciitilde{} beauty * female, the beauty
+coefficient describes that for each increment in beauty score,if you are
+male, you get a increase in evaluation of 0.2 points (95\% CI {[}0.12,
+0.27{]}). Furthermore, if you are female, your evaluation is 0.2 lower
+than if you are male (95\% CI {[}-0.29, -0.12{]}). The interaction
+coefficient shows that if you're female, then the slope will be 0.1 less
+steep than if you aren't (95\% CI {[}-0.22, 0.00{]})
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model\_bea4 }\OtherTok{\textless{}{-}} \FunctionTok{stan\_glm}\NormalTok{(eval }\SpecialCharTok{\textasciitilde{}}\NormalTok{ beauty }\SpecialCharTok{*}\NormalTok{ minority, }\AttributeTok{data=}\NormalTok{ df\_bea, }\AttributeTok{refresh=}\DecValTok{0}\NormalTok{)}
+\NormalTok{simulations\_bea4 }\OtherTok{=} \FunctionTok{as.matrix}\NormalTok{(model\_bea4) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{data.frame}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{tibble}\NormalTok{()}
+\FunctionTok{summary}\NormalTok{(model\_bea4)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Model Info:
+##  function:     stan_glm
+##  family:       gaussian [identity]
+##  formula:      eval ~ beauty * minority
+##  algorithm:    sampling
+##  sample:       4000 (posterior sample size)
+##  priors:       see help('prior_summary')
+##  observations: 463
+##  predictors:   4
+## 
+## Estimates:
+##                    mean   sd   10%   50%   90%
+## (Intercept)       4.0    0.0  4.0   4.0   4.1 
+## beauty            0.2    0.0  0.1   0.2   0.2 
+## minority1        -0.1    0.1 -0.2  -0.1   0.0 
+## beauty:minority1 -0.2    0.1 -0.4  -0.2  -0.1 
+## sigma             0.5    0.0  0.5   0.5   0.6 
+## 
+## Fit Diagnostics:
+##            mean   sd   10%   50%   90%
+## mean_PPD 4.0    0.0  4.0   4.0   4.0  
+## 
+## The mean_ppd is the sample average posterior predictive distribution of the outcome variable (for details see help('summary.stanreg')).
+## 
+## MCMC diagnostics
+##                  mcse Rhat n_eff
+## (Intercept)      0.0  1.0  4423 
+## beauty           0.0  1.0  4511 
+## minority1        0.0  1.0  4932 
+## beauty:minority1 0.0  1.0  4087 
+## sigma            0.0  1.0  4887 
+## mean_PPD         0.0  1.0  4453 
+## log-posterior    0.0  1.0  1845 
+## 
+## For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confidence\_interval}\NormalTok{(simulations\_bea4}\SpecialCharTok{$}\NormalTok{beauty)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.1093588 0.2209414
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confidence\_interval}\NormalTok{(simulations\_bea4}\SpecialCharTok{$}\NormalTok{female1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Unknown or uninitialised column: `female1`.
+\end{verbatim}
+
+\begin{verbatim}
+## [1] NA NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confidence\_interval}\NormalTok{(simulations\_bea4}\SpecialCharTok{$}\NormalTok{beauty.female1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Unknown or uninitialised column: `beauty.female1`.
+\end{verbatim}
+
+\begin{verbatim}
+## [1] NA NA
+\end{verbatim}
+
+In the model eval \textasciitilde{} beauty * minority, the beauty
+coefficient describes that for each increment in beauty score,if you are
+non-minority, you get a increase in evaluation of 0.2 points (95\% CI
+{[}0.11,0.22{]}). Furthermore, if you are a minority, your evaluation is
+0.1 lower than if you are not (95\% CI {[}-0.26, -0.02{]}). The
+interaction coefficient shows that if you're a minority, then the slope
+will be 0.2 less steep than if you aren't (95\% CI {[}-0.41, -0.09{]})
+
+\hypertarget{exercise-10.7}{%
+\subsection{3. Exercise 10.7}\label{exercise-10.7}}
+
+\emph{Predictive simulation for linear regression:} Take one of the
+models from the previous exercise.
+
+\emph{(a) Instructor A is a 50-year-old woman who is a native English
+speaker and has a beauty score of −1. Instructor B is a 60-year-old man
+who is a native English speaker and has a beauty score of −0.5. Simulate
+1000 random draws of the course evaluation rating of these two
+instructors. In your simulation, use posterior\_predict to account for
+the uncertainty in the regression parameters as well as predictive
+uncertainty.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{837363839}\NormalTok{)}
+\NormalTok{newA }\OtherTok{\textless{}{-}} \FunctionTok{data\_frame}\NormalTok{(}\AttributeTok{age=}\DecValTok{50}\NormalTok{, }\AttributeTok{beauty=}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\AttributeTok{female=}\FunctionTok{as.factor}\NormalTok{(}\DecValTok{1}\NormalTok{), }\AttributeTok{nonenglish=}\DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: `data_frame()` was deprecated in tibble 1.1.0.
+## Please use `tibble()` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{newB }\OtherTok{\textless{}{-}} \FunctionTok{data\_frame}\NormalTok{(}\AttributeTok{age=}\DecValTok{60}\NormalTok{, }\AttributeTok{beauty=}\SpecialCharTok{{-}}\FloatTok{0.5}\NormalTok{, }\AttributeTok{female=}\FunctionTok{as.factor}\NormalTok{(}\DecValTok{0}\NormalTok{), }\AttributeTok{nonenglish=}\DecValTok{0}\NormalTok{)}
+\NormalTok{y\_postpredA }\OtherTok{\textless{}{-}} \FunctionTok{posterior\_predict}\NormalTok{(model\_bea3, }\AttributeTok{newdata =}\NormalTok{ newA,}\AttributeTok{draws=}\DecValTok{1000}\NormalTok{ )}
+\NormalTok{y\_postpredB }\OtherTok{\textless{}{-}} \FunctionTok{posterior\_predict}\NormalTok{(model\_bea3, }\AttributeTok{newdata =}\NormalTok{ newB,}\AttributeTok{draws=}\DecValTok{1000}\NormalTok{ )}
+\FunctionTok{summary}\NormalTok{(y\_postpredA)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        1        
+##  Min.   :1.729  
+##  1st Qu.:3.443  
+##  Median :3.793  
+##  Mean   :3.799  
+##  3rd Qu.:4.158  
+##  Max.   :5.493
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(y\_postpredB)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        1        
+##  Min.   :2.394  
+##  1st Qu.:3.639  
+##  Median :4.011  
+##  Mean   :3.998  
+##  3rd Qu.:4.340  
+##  Max.   :5.789
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y\_diff }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(y\_postpredA}\SpecialCharTok{{-}}\NormalTok{y\_postpredB)}
+\FunctionTok{colnames}\NormalTok{(y\_diff) }\OtherTok{\textless{}{-}} \StringTok{"X"}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{plotting-the-posterior-predictive-distribution}{%
+\subsubsection{Plotting the posterior predictive
+distribution}\label{plotting-the-posterior-predictive-distribution}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{density}\NormalTok{(y\_postpredA) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{plot}\NormalTok{(}\AttributeTok{main=}\StringTok{"Posterior predictive of Instructor A"}\NormalTok{, }\AttributeTok{col =} \StringTok{"grey"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment_final_3_revisited_files/figure-latex/unnamed-chunk-33-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{density}\NormalTok{(y\_postpredB) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{plot}\NormalTok{(}\AttributeTok{main=}\StringTok{" Posterior predictive of Instructor B"}\NormalTok{, }\AttributeTok{col =} \StringTok{"grey"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment_final_3_revisited_files/figure-latex/unnamed-chunk-33-2.pdf}
+
+\emph{(b) Make a histogram of the difference between the course
+evaluations for A and B. What is the probability that A will have a
+higher evaluation?}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hist}\NormalTok{(y\_postpredA}\SpecialCharTok{{-}}\NormalTok{y\_postpredB)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{assignment_final_3_revisited_files/figure-latex/unnamed-chunk-34-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{nrow}\NormalTok{(}\FunctionTok{filter}\NormalTok{(y\_diff,X}\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{))}\SpecialCharTok{/}\DecValTok{1000}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.392
+\end{verbatim}
+
+The probability of A having a higher evaluation is around 40\% depending
+on the simulation.
+
+\end{document}

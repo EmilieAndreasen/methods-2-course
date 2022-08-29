@@ -42,8 +42,8 @@ model = stan_glm(child_score ~ mom_age, data=child_df, refresh= 0)
 
 #Obtaining the results of the simulations and turning them into a tibble
 simulations = as.matrix(model) %>% data.frame() %>% tibble()
-hist(simulations$mom_age)
-hist(simulations$sigma)
+density(simulations$mom_age)
+density(simulations$sigma)
 summary(model)
 str(simulations)
 ```
